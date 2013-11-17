@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Multilateration::VERSION
   spec.authors       = ["Arron Mabrey"]
   spec.email         = ["arron@mabreys.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Solves for the location of an unknown signal emitter by using the signal TDOA between multiple signal receivers with known locations.}
+  spec.summary       = %q{Solves for the location of an unknown signal emitter by using the signal TDOA between multiple signal receivers with known locations.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
