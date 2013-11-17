@@ -1,3 +1,5 @@
+require "matrix"
+
 require "multilateration/version"
 require "multilateration/solver"
 require "multilateration/emitter"
