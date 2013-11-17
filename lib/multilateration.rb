@@ -1,4 +1,5 @@
 require "matrix"
+require "forwardable"
 
 require "multilateration/version"
 require "multilateration/solver"
