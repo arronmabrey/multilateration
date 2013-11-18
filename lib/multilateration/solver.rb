@@ -43,15 +43,11 @@ module Multilateration
     end
 
     def tdoa_between_receivers_first_and(other_receiver)
-      t(other_receiver)-t(first_receiver)
+      other_receiver.time_unit_of_arrival - first_receiver.time_unit_of_arrival
     end
 
     def ai(i)
       2*( (v(tdoa_between_receivers_first_and_last)*(p(i)-p(first_receiver)))-(v(tdoa_between_receivers_first_and(i))*(p(last_receiver)-p(first_receiver))) )
-    end
-
-    def t(receiver)
-      receiver.time_unit_of_arrival
     end
 
     def v(time, exp=1)
