@@ -26,6 +26,14 @@ module Multilateration
       Matrix.columns([middle_receivers.map { |i| bi(i) }])
     end
 
+    def ai(i)
+      2*( (distance(tdoa_between_receivers_first_and_last)*(i.vector - first_receiver.vector))-(distance(tdoa_between_receivers_first_and(i))*(last_receiver.vector - first_receiver.vector)) )
+    end
+
+    def bi(i)
+      (distance(tdoa_between_receivers_first_and(i))*(distance_sq(tdoa_between_receivers_first_and_last)-inner_product_sq(last_receiver))) + ((distance(tdoa_between_receivers_first_and(i))-distance(tdoa_between_receivers_first_and_last))*inner_product_sq(first_receiver)) + (distance(tdoa_between_receivers_first_and_last)*(inner_product_sq(i)-distance_sq(tdoa_between_receivers_first_and(i))))
+    end
+
     def middle_receivers
       receivers - [first_receiver, last_receiver]
     end
@@ -34,12 +42,12 @@ module Multilateration
       unsorted_receivers.sort_by(&:time_unit_of_arrival)
     end
 
-    def last_receiver
-      receivers.last
-    end
-
     def first_receiver
       receivers.first
+    end
+
+    def last_receiver
+      receivers.last
     end
 
     def tdoa_between_receivers_first_and_last
@@ -50,16 +58,8 @@ module Multilateration
       other_receiver.time_unit_of_arrival - first_receiver.time_unit_of_arrival
     end
 
-    def ai(i)
-      2*( (distance(tdoa_between_receivers_first_and_last)*(i.vector - first_receiver.vector))-(distance(tdoa_between_receivers_first_and(i))*(last_receiver.vector - first_receiver.vector)) )
-    end
-
     def distance(time, exp=1)
       (wave_speed**exp) * (time**exp)
-    end
-
-    def bi(i)
-      (distance(tdoa_between_receivers_first_and(i))*(distance_sq(tdoa_between_receivers_first_and_last)-inner_product_sq(last_receiver))) + ((distance(tdoa_between_receivers_first_and(i))-distance(tdoa_between_receivers_first_and_last))*inner_product_sq(first_receiver)) + (distance(tdoa_between_receivers_first_and_last)*(inner_product_sq(i)-distance_sq(tdoa_between_receivers_first_and(i))))
     end
 
     def distance_sq(time)
