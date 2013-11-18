@@ -1,11 +1,12 @@
 module Multilateration
   class Solver
-    attr_reader :receivers, :wave_speed
-    private :receivers, :wave_speed
+    attr_reader :receivers, :wave_speed, :time_of_arrival_strategy
+    private :receivers, :wave_speed, :time_of_arrival_strategy
 
-    def initialize(unsorted_receivers, wave_speed)
-      @receivers  = unsorted_receivers.sort_by(&:time_unit_of_arrival)
-      @wave_speed = wave_speed
+    def initialize(unsorted_receivers, time_of_arrival_strategy)
+      @receivers  = unsorted_receivers.sort_by { |r| time_of_arrival_strategy.toa(r) }
+      @wave_speed = time_of_arrival_strategy.wave_speed
+      @time_of_arrival_strategy = time_of_arrival_strategy
     end
 
     def solved_vector
@@ -23,8 +24,8 @@ module Multilateration
     end
 
     def ai(i)
-      2*(   ( distance(tdoa_between_receivers_first_and_last) * ( i.vector             - first_receiver.vector )) \
-          - ( distance(tdoa_between_receivers_first_and(i))   * ( last_receiver.vector - first_receiver.vector )) )
+      2*(   ( distance(tdoa_between_receivers_first_and_last) * ( i             - first_receiver )) \
+          - ( distance(tdoa_between_receivers_first_and(i))   * ( last_receiver - first_receiver )) )
     end
 
     def bi(i)
@@ -50,7 +51,7 @@ module Multilateration
     end
 
     def tdoa_between_receivers_first_and(other_receiver)
-      other_receiver.time_unit_of_arrival - first_receiver.time_unit_of_arrival
+      time_of_arrival_strategy.tdoa(other_receiver, first_receiver)
     end
 
     def distance(time, exp=1)
@@ -61,8 +62,8 @@ module Multilateration
       distance(time, 2)
     end
 
-    def inner_product_sq(receiver)
-      receiver.vector.inner_product(receiver.vector)
+    def inner_product_sq(vector)
+      vector.inner_product(vector)
     end
 
   end
