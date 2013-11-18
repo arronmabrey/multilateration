@@ -8,10 +8,6 @@ module Multilateration
       @wave_speed = wave_speed
     end
 
-    def solved_emitter
-      Emitter.new(solved_vector)
-    end
-
     def solved_vector
       Vector.elements (ai_matrix * bi_matrix).flat_map.to_a
     end
