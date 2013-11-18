@@ -23,7 +23,7 @@ module Multilateration
     end
 
     def middle_receivers
-      receivers[1..-2]
+      receivers - [first_receiver, last_receiver]
     end
 
     def receivers
