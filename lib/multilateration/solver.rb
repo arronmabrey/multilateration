@@ -9,17 +9,17 @@ module Multilateration
     end
 
     def solved_emitter
-      Emitter.new(Vector[*(middle_receivers_aijc_matrix * middle_receivers_bijc_matrix).flat_map])
+      Emitter.new(Vector[*(middle_receivers_aic_matrix * middle_receivers_bic_matrix).flat_map])
     end
 
     private
 
-    def middle_receivers_aijc_matrix
-      Matrix.rows(middle_receivers.map { |i| aijc(i, j, c) }).inverse
+    def middle_receivers_aic_matrix
+      Matrix.rows(middle_receivers.map { |i| aic(i, c) }).inverse
     end
 
-    def middle_receivers_bijc_matrix
-      Matrix.columns([middle_receivers.map { |i| bijc(i, j, c) }])
+    def middle_receivers_bic_matrix
+      Matrix.columns([middle_receivers.map { |i| bic(i, c) }])
     end
 
     def middle_receivers
@@ -28,10 +28,6 @@ module Multilateration
 
     def receivers
       unsorted_receivers.sort_by(&:time_unit_of_arrival)
-    end
-
-    def j
-      last_receiver
     end
 
     def last_receiver
@@ -46,8 +42,8 @@ module Multilateration
       receivers.first
     end
 
-    def aijc(i, j, c)
-      2*( (v(t(j)-t(c))*(p(i)-p(c)))-(v(t(i)-t(c))*(p(j)-p(c))) )
+    def aic(i, c)
+      2*( (v(t(last_receiver)-t(c))*(p(i)-p(c)))-(v(t(i)-t(c))*(p(last_receiver)-p(c))) )
     end
 
     def t(receiver)
@@ -58,8 +54,8 @@ module Multilateration
       (wave_speed**exp) * (time**exp)
     end
 
-    def bijc(i, j, c)
-      (v(t(i)-t(c))*(v2(t(j)-t(c))-tp(j))) + ((v(t(i)-t(c))-v(t(j)-t(c)))*tp(c)) + (v(t(j)-t(c))*(tp(i)-v2(t(i)-t(c))))
+    def bic(i, c)
+      (v(t(i)-t(c))*(v2(t(last_receiver)-t(c))-tp(last_receiver))) + ((v(t(i)-t(c))-v(t(last_receiver)-t(c)))*tp(c)) + (v(t(last_receiver)-t(c))*(tp(i)-v2(t(i)-t(c))))
     end
 
     def v2(time)
