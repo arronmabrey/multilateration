@@ -15,7 +15,7 @@ module Multilateration
     private
 
     def solved_vector
-      Vector[*(ai_matrix * bi_matrix).flat_map]
+      Vector.elements (ai_matrix * bi_matrix).flat_map.to_a
     end
 
     def ai_matrix
