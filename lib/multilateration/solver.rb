@@ -55,14 +55,14 @@ module Multilateration
     end
 
     def bi(i)
-      (v(tdoa_between_receivers_first_and(i))*(v2(tdoa_between_receivers_first_and_last)-tp(last_receiver))) + ((v(tdoa_between_receivers_first_and(i))-v(tdoa_between_receivers_first_and_last))*tp(first_receiver)) + (v(tdoa_between_receivers_first_and_last)*(tp(i)-v2(tdoa_between_receivers_first_and(i))))
+      (v(tdoa_between_receivers_first_and(i))*(v2(tdoa_between_receivers_first_and_last)-inner_product_sq(last_receiver))) + ((v(tdoa_between_receivers_first_and(i))-v(tdoa_between_receivers_first_and_last))*inner_product_sq(first_receiver)) + (v(tdoa_between_receivers_first_and_last)*(inner_product_sq(i)-v2(tdoa_between_receivers_first_and(i))))
     end
 
     def v2(time)
       v(time, 2)
     end
 
-    def tp(receiver)
+    def inner_product_sq(receiver)
       receiver.vector.inner_product(receiver.vector)
     end
 
