@@ -47,7 +47,7 @@ module Multilateration
     end
 
     def ai(i)
-      2*( (v(tdoa_between_receivers_first_and_last)*(p(i)-p(first_receiver)))-(v(tdoa_between_receivers_first_and(i))*(p(last_receiver)-p(first_receiver))) )
+      2*( (v(tdoa_between_receivers_first_and_last)*(i.vector - first_receiver.vector))-(v(tdoa_between_receivers_first_and(i))*(last_receiver.vector - first_receiver.vector)) )
     end
 
     def v(time, exp=1)
@@ -62,12 +62,8 @@ module Multilateration
       v(time, 2)
     end
 
-    def p(receiver)
-      receiver.vector
-    end
-
     def tp(receiver)
-      p(receiver).inner_product(p(receiver))
+      receiver.vector.inner_product(receiver.vector)
     end
 
   end
