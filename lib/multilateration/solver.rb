@@ -1,10 +1,10 @@
 module Multilateration
   class Solver
-    attr_reader :unsorted_receivers, :wave_speed
-    private :unsorted_receivers, :wave_speed
+    attr_reader :receivers, :wave_speed
+    private :receivers, :wave_speed
 
     def initialize(unsorted_receivers, wave_speed)
-      @unsorted_receivers = unsorted_receivers
+      @receivers  = unsorted_receivers.sort_by(&:time_unit_of_arrival)
       @wave_speed = wave_speed
     end
 
@@ -36,10 +36,6 @@ module Multilateration
 
     def middle_receivers
       receivers - [first_receiver, last_receiver]
-    end
-
-    def receivers
-      unsorted_receivers.sort_by(&:time_unit_of_arrival)
     end
 
     def first_receiver
