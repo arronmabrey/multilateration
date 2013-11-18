@@ -27,7 +27,8 @@ module Multilateration
     end
 
     def ai(i)
-      2*( (distance(tdoa_between_receivers_first_and_last)*(i.vector - first_receiver.vector))-(distance(tdoa_between_receivers_first_and(i))*(last_receiver.vector - first_receiver.vector)) )
+      2*(   ( distance(tdoa_between_receivers_first_and_last) * ( i.vector             - first_receiver.vector )) \
+          - ( distance(tdoa_between_receivers_first_and(i))   * ( last_receiver.vector - first_receiver.vector )) )
     end
 
     def bi(i)
