@@ -47,19 +47,19 @@ module Multilateration
     end
 
     def ai(i)
-      2*( (v(tdoa_between_receivers_first_and_last)*(i.vector - first_receiver.vector))-(v(tdoa_between_receivers_first_and(i))*(last_receiver.vector - first_receiver.vector)) )
+      2*( (distance(tdoa_between_receivers_first_and_last)*(i.vector - first_receiver.vector))-(distance(tdoa_between_receivers_first_and(i))*(last_receiver.vector - first_receiver.vector)) )
     end
 
-    def v(time, exp=1)
+    def distance(time, exp=1)
       (wave_speed**exp) * (time**exp)
     end
 
     def bi(i)
-      (v(tdoa_between_receivers_first_and(i))*(v2(tdoa_between_receivers_first_and_last)-inner_product_sq(last_receiver))) + ((v(tdoa_between_receivers_first_and(i))-v(tdoa_between_receivers_first_and_last))*inner_product_sq(first_receiver)) + (v(tdoa_between_receivers_first_and_last)*(inner_product_sq(i)-v2(tdoa_between_receivers_first_and(i))))
+      (distance(tdoa_between_receivers_first_and(i))*(v2(tdoa_between_receivers_first_and_last)-inner_product_sq(last_receiver))) + ((distance(tdoa_between_receivers_first_and(i))-distance(tdoa_between_receivers_first_and_last))*inner_product_sq(first_receiver)) + (distance(tdoa_between_receivers_first_and_last)*(inner_product_sq(i)-v2(tdoa_between_receivers_first_and(i))))
     end
 
     def v2(time)
-      v(time, 2)
+      distance(time, 2)
     end
 
     def inner_product_sq(receiver)
