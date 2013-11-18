@@ -9,7 +9,7 @@ module Multilateration
     end
 
     def solved_emitter
-      Emitter.new(Vector[*(ai_matrix * middle_receivers_bi_matrix).flat_map])
+      Emitter.new(Vector[*(ai_matrix * bi_matrix).flat_map])
     end
 
     private
@@ -18,7 +18,7 @@ module Multilateration
       Matrix.rows(middle_receivers.map { |i| ai(i) }).inverse
     end
 
-    def middle_receivers_bi_matrix
+    def bi_matrix
       Matrix.columns([middle_receivers.map { |i| bi(i) }])
     end
 
