@@ -38,7 +38,7 @@ module Multilateration
       receivers.first
     end
 
-    def tdoa_between_first_last_receiver
+    def tdoa_between_receivers_first_and_last
       t(last_receiver)-t(first_receiver)
     end
 
@@ -47,7 +47,7 @@ module Multilateration
     end
 
     def ai(i)
-      2*( (v(tdoa_between_first_last_receiver)*(p(i)-p(first_receiver)))-(v(tdoa_between_receivers_first_and(i))*(p(last_receiver)-p(first_receiver))) )
+      2*( (v(tdoa_between_receivers_first_and_last)*(p(i)-p(first_receiver)))-(v(tdoa_between_receivers_first_and(i))*(p(last_receiver)-p(first_receiver))) )
     end
 
     def t(receiver)
@@ -59,7 +59,7 @@ module Multilateration
     end
 
     def bi(i)
-      (v(tdoa_between_receivers_first_and(i))*(v2(tdoa_between_first_last_receiver)-tp(last_receiver))) + ((v(tdoa_between_receivers_first_and(i))-v(tdoa_between_first_last_receiver))*tp(first_receiver)) + (v(tdoa_between_first_last_receiver)*(tp(i)-v2(tdoa_between_receivers_first_and(i))))
+      (v(tdoa_between_receivers_first_and(i))*(v2(tdoa_between_receivers_first_and_last)-tp(last_receiver))) + ((v(tdoa_between_receivers_first_and(i))-v(tdoa_between_receivers_first_and_last))*tp(first_receiver)) + (v(tdoa_between_receivers_first_and_last)*(tp(i)-v2(tdoa_between_receivers_first_and(i))))
     end
 
     def v2(time)
