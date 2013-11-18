@@ -19,7 +19,7 @@ class MockTimeOfArrivalStrategy < Struct.new(:origin_emitter, :wave_speed)
 end
 
 describe Multilateration::Solver do
-  describe "#solved_emitter" do
+  describe "#solved_vector" do
     let(:wave_speed) { 1 }
     let(:seeded_emitter) { Multilateration::Emitter.new(Vector[-20,5,120.2]) }
     let(:time_unit_of_arrival_strategy) { MockTimeOfArrivalStrategy.new(seeded_emitter, wave_speed) }
@@ -30,8 +30,8 @@ describe Multilateration::Solver do
     let(:reciver_4) { Multilateration::Receiver.new(Vector[100,-100,-5.5], time_unit_of_arrival_strategy) }
     let(:recivers) { [reciver_0, reciver_1, reciver_2, reciver_3, reciver_4] }
 
-    subject(:solved_emitter) { described_class.new(recivers, wave_speed).solved_emitter }
+    subject(:solved_vector) { described_class.new(recivers, wave_speed).solved_vector }
 
-    specify { expect( solved_emitter.magnitude ).to be_within(0.0000000000001).of(seeded_emitter.magnitude) }
+    specify { expect( solved_vector.magnitude ).to be_within(0.0000000000001).of(seeded_emitter.magnitude) }
   end
 end
