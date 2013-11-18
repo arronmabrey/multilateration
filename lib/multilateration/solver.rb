@@ -39,7 +39,7 @@ module Multilateration
     end
 
     def tdoa_between_receivers_first_and_last
-      t(last_receiver)-t(first_receiver)
+      tdoa_between_receivers_first_and(last_receiver)
     end
 
     def tdoa_between_receivers_first_and(other_receiver)
