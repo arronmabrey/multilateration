@@ -55,10 +55,10 @@ module Multilateration
     end
 
     def bi(i)
-      (distance(tdoa_between_receivers_first_and(i))*(v2(tdoa_between_receivers_first_and_last)-inner_product_sq(last_receiver))) + ((distance(tdoa_between_receivers_first_and(i))-distance(tdoa_between_receivers_first_and_last))*inner_product_sq(first_receiver)) + (distance(tdoa_between_receivers_first_and_last)*(inner_product_sq(i)-v2(tdoa_between_receivers_first_and(i))))
+      (distance(tdoa_between_receivers_first_and(i))*(distance_sq(tdoa_between_receivers_first_and_last)-inner_product_sq(last_receiver))) + ((distance(tdoa_between_receivers_first_and(i))-distance(tdoa_between_receivers_first_and_last))*inner_product_sq(first_receiver)) + (distance(tdoa_between_receivers_first_and_last)*(inner_product_sq(i)-distance_sq(tdoa_between_receivers_first_and(i))))
     end
 
-    def v2(time)
+    def distance_sq(time)
       distance(time, 2)
     end
 
