@@ -1,3 +1,5 @@
+require "rantly"
+
 require "matrix"
 
 require "multilateration/version"
