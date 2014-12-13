@@ -4,16 +4,14 @@ module Multilateration
     TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S.%N%z"
 
     def self.generate
-      begin
-        new(
-          receiver_count: 5,
-          coordinate_num_dimensions: 3,
-          coordinate_max_area: 1000,
-          coordinate_max_precision: 4,
-          signal_propagation_max_speed: 500,
-          signal_propagation_max_precision: 4,
-        ).generate
-      end
+      new(
+        receiver_count: 5,
+        coordinate_num_dimensions: 3,
+        coordinate_max_area: 1000,
+        coordinate_max_precision: 4,
+        signal_propagation_max_speed: 500,
+        signal_propagation_max_precision: 4,
+      ).generate
     end
 
     attr_reader :receiver_count, :coordinate_num_dimensions, :coordinate_max_area, :coordinate_max_precision, :signal_propagation_max_speed, :signal_propagation_max_precision
