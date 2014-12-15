@@ -1,18 +1,27 @@
 require 'spec_helper'
 
 describe Multilateration::Solver do
-  describe "#solved_vector" do
-    let(:source_vector)    { Vector[-20,5,120.2]   }
-    let(:reciver_vector_0) { Vector[0,25,1]        }
-    let(:reciver_vector_1) { Vector[50,20.34,2]    }
-    let(:reciver_vector_2) { Vector[50,50,33]      }
-    let(:reciver_vector_3) { Vector[23,75,4]       }
-    let(:reciver_vector_4) { Vector[100,-100,-5.5] }
-    let(:time_of_arrival_strategy) { Multilateration::TimeOfArrivalStrategies::SourceVectorDistance.new(source_vector) }
-    let(:recivers) { [reciver_vector_0, reciver_vector_1, reciver_vector_2, reciver_vector_3, reciver_vector_4] }
+  describe "#solved_signal_event_emitter" do
+    generative do
+      let(:tolerance) { 0.0000001 }
 
-    subject(:solved_vector) { described_class.new(recivers, time_of_arrival_strategy).solved_vector }
+      let(:signal_event_data) { Multilateration::SignalEventDataGenerator.generate }
+      let(:signal_event_emiter) { signal_event_data.fetch(:emitter_event) }
+      let(:signal_event_emiter_time) { signal_event_emiter[:time] }
+      let(:signal_event_emiter_coordinate) { signal_event_emiter[:coordinate] }
+      let(:signal_event_data_without_emiter) { signal_event_data.reject { |k,v| v == signal_event_emiter } }
 
-    specify { expect( solved_vector.magnitude ).to be_within(0.0000000000001).of(source_vector.magnitude) }
+      subject(:solved_signal_event_emitter) { described_class.new(signal_event_data_without_emiter).solved_signal_event_emitter }
+
+      specify { expect(solved_signal_event_emitter).to match({
+        coordinate: [
+          be_within(tolerance).of(signal_event_emiter_coordinate[0]),
+          be_within(tolerance).of(signal_event_emiter_coordinate[1]),
+          be_within(tolerance).of(signal_event_emiter_coordinate[2]),
+        ],
+        time: be_within(tolerance).of(signal_event_emiter_time),
+      })}
+    end
   end
+
 end
