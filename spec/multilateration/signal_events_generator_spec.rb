@@ -7,7 +7,7 @@ describe Multilateration::SignalEventsGenerator do
     let(:signal_event_matcher) do
       {
         coordinate: [be_a(Numeric), be_a(Numeric), be_a(Numeric)],        # [368, -454, 978.9]
-        time: match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}\+0{4}$/) # "1945-12-22T18:13:16.144102423+0000"
+        time: match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}(\+|\-)\d{4}$/) # "1945-12-22T18:13:16.144102423+0000"
       }
     end
 

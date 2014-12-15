@@ -77,11 +77,11 @@ module Multilateration
     end
 
     def time_to_timestamp(time)
-      time.utc.strftime(TIMESTAMP_FORMAT)
+      time.strftime(TIMESTAMP_FORMAT)
     end
 
     def timestamp_to_time(timestamp)
-      Time.parse(timestamp).utc
+      Time.parse(timestamp)
     end
   end
 end
