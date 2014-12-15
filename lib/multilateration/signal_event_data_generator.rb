@@ -1,8 +1,6 @@
 module Multilateration
   class SignalEventDataGenerator
 
-    TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S.%N%z"
-
     def self.generate
       new(
         receiver_count: 5,
