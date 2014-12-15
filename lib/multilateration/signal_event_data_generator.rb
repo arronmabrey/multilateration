@@ -1,5 +1,5 @@
 module Multilateration
-  class SignalEventsGenerator
+  class SignalEventDataGenerator
 
     TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S.%N%z"
 
@@ -44,13 +44,12 @@ module Multilateration
     private
 
     def signal_event_for(coordinate, timestamp)
-      {coordinate: coordinate, timestamp: timestamp}
+      {coordinate: coordinate, time: timestamp}
     end
 
     def propagation_timestamp(signal_propagation_speed, emission_timestamp, emitter_coordinate, coordinate)
       propagation_duration = distance_between_coordinates(emitter_coordinate, coordinate) / signal_propagation_speed
-      propagation_time     = timestamp_to_time(emission_timestamp) - propagation_duration
-      time_to_timestamp(propagation_time)
+      propagation_time     = emission_timestamp - propagation_duration
     end
 
     def distance_between_coordinates(coordinate1, coordinate2)
@@ -64,7 +63,7 @@ module Multilateration
     end
 
     def random_high_resolution_timestamp
-      time_to_timestamp Time.at(Rantly { integer(1_000_000_000) + float })
+      Time.at(Rantly { integer(1_000_000_000) + float })
     end
 
     def random_coordinate(cnd: coordinate_num_dimensions, cma: coordinate_max_area, cmp: coordinate_max_precision)
@@ -75,12 +74,5 @@ module Multilateration
       Vector.elements(coordinate)
     end
 
-    def time_to_timestamp(time)
-      time.strftime(TIMESTAMP_FORMAT)
-    end
-
-    def timestamp_to_time(timestamp)
-      Time.parse(timestamp)
-    end
   end
 end

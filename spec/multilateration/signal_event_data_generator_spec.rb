@@ -1,13 +1,14 @@
 require 'spec_helper'
 
-describe Multilateration::SignalEventsGenerator do
+describe Multilateration::SignalEventDataGenerator do
   describe '.generate' do
     subject(:generate) { described_class.generate }
 
     let(:signal_event_matcher) do
       {
         coordinate: [be_a(Numeric), be_a(Numeric), be_a(Numeric)],        # [368, -454, 978.9]
-        timestamp: match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}(\+|\-)\d{4}$/) # "1945-12-22T18:13:16.144102423+0000"
+        # timestamp: match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}(\+|\-)\d{4}$/) # "1945-12-22T18:13:16.144102423+0000"
+        time: be_a(Time),
       }
     end
 
