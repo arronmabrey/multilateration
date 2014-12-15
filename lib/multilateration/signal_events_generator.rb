@@ -27,29 +27,28 @@ module Multilateration
     end
 
     def generate(rc: receiver_count)
-      signal_events = []
+      signal_propagation_speed = random_signal_propagation_speed
+      emission_timestamp       = random_high_resolution_timestamp
+      emitter_coordinate       = random_coordinate
+      receiver_coordinates     = rc.times.map { random_coordinate }
 
-      emission_timestamp   = random_high_resolution_timestamp
-      emitter_coordinate   = random_coordinate
-      receiver_coordinates = rc.times.map { random_coordinate }
-
-      signal_events << signal_event_for(:emitter, emitter_coordinate, emission_timestamp)
-
-      receiver_coordinates.each do |coordinate|
-        signal_events << signal_event_for(:receiver, coordinate, propagation_timestamp(emission_timestamp, emitter_coordinate, coordinate))
-      end
-
-      signal_events
+      {
+        signal_propagation_speed: signal_propagation_speed,
+        emitter_event: signal_event_for(emitter_coordinate, emission_timestamp),
+        receiver_events: receiver_coordinates.map { |coordinate|
+          signal_event_for(coordinate, propagation_timestamp(signal_propagation_speed, emission_timestamp, emitter_coordinate, coordinate))
+        },
+      }
     end
 
     private
 
-    def signal_event_for(type, coordinate, time)
-      {type: type, coordinate: coordinate, time: time}
+    def signal_event_for(coordinate, timestamp)
+      {coordinate: coordinate, timestamp: timestamp}
     end
 
-    def propagation_timestamp(emission_timestamp, emitter_coordinate, coordinate)
-      propagation_duration = distance_between_coordinates(emitter_coordinate, coordinate) / random_signal_propagation_speed
+    def propagation_timestamp(signal_propagation_speed, emission_timestamp, emitter_coordinate, coordinate)
+      propagation_duration = distance_between_coordinates(emitter_coordinate, coordinate) / signal_propagation_speed
       propagation_time     = timestamp_to_time(emission_timestamp) - propagation_duration
       time_to_timestamp(propagation_time)
     end
